@@ -9,7 +9,7 @@ Uses useMediaQuery, withStyles, creates a custom theme, uses Paper, IconButton, 
 React components that implement Google's Material Design.
 
 ## Final Impression
-Material-UI is ##SMASHING!!!## Bye-bye Bootstrap.
+Material-UI is __**SMASHING!!!**__ Bye-bye Bootstrap.
 
 ### Uses CSS in JS
 https://speakerdeck.com/vjeux/react-css-in-js
