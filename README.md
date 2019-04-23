@@ -8,7 +8,7 @@ Uses useMediaQuery, withStyles, creates a custom theme, uses Paper, IconButton, 
 ## What is Material UI?
 React components that implement Google's Material Design.
 
-## Final Impression
+## First Impressions
 Material-UI is __**SMASHING!!!**__ Bye-bye Bootstrap.
 
 ### Uses CSS in JS
