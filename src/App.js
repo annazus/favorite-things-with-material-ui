@@ -1,26 +1,99 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import {
+  withStyles,
+  Typography,
+  TextField,
+  Paper,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemSecondaryAction,
+  IconButton
+} from "@material-ui/core";
+import { unstable_useMediaQuery as useMediaQuery } from "@material-ui/core/useMediaQuery";
+import { Delete as DeleteIcon } from "@material-ui/icons";
 
-function App() {
+const App = ({ classes }) => {
+  const mobileSize = useMediaQuery("max-width:650px");
+  const [title, setTitle] = useState("");
+  const [favorites, setFavorites] = useState([]);
+  const handleFormSubmit = event => {
+    event.preventDefault();
+    if (title.trim()) {
+      setFavorites([...favorites, { id: Date.now(), thing: title.trim() }]);
+      setTitle("");
+    }
+  };
+  const handleChange = event => {
+    event.preventDefault();
+    setTitle(event.target.value);
+  };
+
+  const handleDeleteExercise = id => {
+    const newExercises = favorites.filter(exe => exe.id !== id);
+    setFavorites(newExercises);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <>
+      <Paper className={mobileSize ? classes.root : classes.rootMobile}>
+        <Typography
+          variant="h3"
+          color="textPrimary"
+          align="center"
+          gutterBottom
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          A few of my Favorite Things
+        </Typography>
+        <form onSubmit={handleFormSubmit} className={classes.form}>
+          <TextField
+            name="title"
+            value={title}
+            onChange={handleChange}
+            margin="none"
+            placeholder="Favorite Thing"
+          />
+          <Button type="submit" color="primary" variant="contained">
+            Create
+          </Button>
+        </form>
+        <List>
+          {favorites.map((thing, i) => (
+            <ListItem key={thing.id}>
+              <ListItemText primary={thing.thing} />
+              <ListItemSecondaryAction>
+                <IconButton
+                  color="secondary"
+                  onClick={() => handleDeleteExercise(thing.id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+          ))}
+        </List>
+      </Paper>
+    </>
   );
-}
+};
 
-export default App;
+const styles = ({ spacing: { unit } }) => ({
+  root: {
+    margin: unit * 3,
+    padding: unit * 3,
+    maxWidth: 650
+  },
+  rootMobile: {
+    margin: unit * 2,
+    padding: unit * 2,
+    maxWidth: 400
+  },
+  form: {
+    display: "flex",
+    alignItems: "baseline",
+    justifyContent: "space-evenly"
+  }
+});
+
+export default withStyles(styles)(App);
